@@ -1,0 +1,7 @@
+name: Fruitful
+main: com.ughcentral.fruitful.Fruitful
+version: 0.7
+author: Patrick Crespo
+load: postworld
+softdepend: [Permissions]
+description: Changes what different trees and ripe crops can drop.
