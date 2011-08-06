@@ -15,7 +15,7 @@ import com.ughcentral.fruitful.valid.ValidBlockType;
 
 public class FruitfulEntityListener extends EntityListener {
     
-    Fruitful plugin;
+    private final Fruitful plugin;
     
     public FruitfulEntityListener(final Fruitful instance) {
         plugin = instance;
@@ -23,7 +23,7 @@ public class FruitfulEntityListener extends EntityListener {
     
     @Override
     public void onEntityExplode(final EntityExplodeEvent event) {
-        if (event.isCancelled()) {
+        if (event.isCancelled() || !plugin.isEnabled()) {
             return;
         }
         final List<Block> blockList = event.blockList();
@@ -54,4 +54,5 @@ public class FruitfulEntityListener extends EntityListener {
             }
         }
     }
+    
 }

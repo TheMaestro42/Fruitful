@@ -20,6 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
+import com.ughcentral.fruitful.commands.FruitfulCommandHandler;
 import com.ughcentral.fruitful.drops.Drop;
 import com.ughcentral.fruitful.valid.ValidBlockType;
 import com.ughcentral.fruitful.valid.ValidDrop;
@@ -28,9 +29,9 @@ public class Fruitful extends JavaPlugin {
     
     private FruitfulBlockListener blockListener;
     private FruitfulEntityListener entityListener;
-    private PluginManager pluginManager;
-    static PermissionHandler permissionHandler = null;
-    static boolean usePermissions;
+    private FruitfulCommandHandler commandHandler;
+    private static PermissionHandler permissionHandler = null;
+    private static boolean usePermissions;
     private static final Logger log = Logger.getLogger("Minecraft");
     private static String chatHeader = null;
     private static HashSet<Permission> permissionSet = new HashSet<Permission>();
@@ -43,6 +44,46 @@ public class Fruitful extends JavaPlugin {
     
     @Override
     public void onDisable() {
+        duringDisable();
+    }
+    
+    @Override
+    public void onEnable() {
+        final PluginManager pluginManager = getServer().getPluginManager();
+        blockListener = new FruitfulBlockListener(this);
+        entityListener = new FruitfulEntityListener(this);
+        commandHandler = new FruitfulCommandHandler(this);
+        pluginManager.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Highest, this);
+        pluginManager.registerEvent(Event.Type.LEAVES_DECAY, blockListener, Priority.Highest, this);
+        pluginManager.registerEvent(Event.Type.BLOCK_FROMTO, blockListener, Priority.Highest, this);
+        pluginManager.registerEvent(Event.Type.BLOCK_BURN, blockListener, Priority.Highest, this);
+        pluginManager.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Priority.Highest, this);
+        duringEnable();
+    }
+    
+    @Override
+    public void onLoad() {
+    }
+    
+    public void reload() {
+        duringDisable();
+        duringEnable();
+    }
+    
+    private void duringEnable() {
+        chatHeader = new String("[" + getDescription().getFullName() + "] ");
+        main = new File(getDataFolder() + File.separator + "config.yml");
+        configuration = new FruitfulConfiguration(main, this);
+        configuration.load();
+        configuration.loadBlockTypes();
+        configuration.loadValidDrops();
+        setupPermissions();
+        loadSuperPerms();
+        getCommand("fruitful").setExecutor(commandHandler);
+        logInfo("Plugin has been enabled.");
+    }
+    
+    private void duringDisable() {
         if (configuration.hasChanged) {
             configuration.save();
         }
@@ -51,29 +92,7 @@ public class Fruitful extends JavaPlugin {
         ValidBlockType.unRegisterAll();
         ValidDrop.unRegisterAll();
         unloadSuperPerms();
-        pluginManager = null;
-        blockListener = null;
-        entityListener = null;
-    }
-    
-    @Override
-    public void onEnable() {
-        chatHeader = new String("[Fruitful] Version: " + getDescription().getVersion() + " ");
-        blockListener = new FruitfulBlockListener(this);
-        entityListener = new FruitfulEntityListener(this);
-        pluginManager = getServer().getPluginManager();
-        main = new File(getDataFolder() + File.separator + "config.yml");
-        configuration = new FruitfulConfiguration(main, this);
-        configuration.load();
-        configuration.loadBlockTypes();
-        configuration.loadValidDrops();
-        setupPermissions();
-        loadSuperPerms();
-        pluginManager.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Highest, this);
-        pluginManager.registerEvent(Event.Type.LEAVES_DECAY, blockListener, Priority.Highest, this);
-        pluginManager.registerEvent(Event.Type.BLOCK_FROMTO, blockListener, Priority.Highest, this);
-        pluginManager.registerEvent(Event.Type.BLOCK_BURN, blockListener, Priority.Highest, this);
-        pluginManager.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Priority.Highest, this);
+        logInfo("Plugin has been disabled.");
     }
     
     static void logInfo(final String message) {
@@ -84,19 +103,8 @@ public class Fruitful extends JavaPlugin {
         log.warning(chatHeader + message);
     }
     
-    void chanceIt(final World world, final Location location, final Player player, final String blocktype, final Keyword event) {
-        final HashSet<Drop> drops = configuration.getDropList(world, blocktype, event);
-        final Random random = new Random();
-        for (final Drop drop : drops) {
-            if (hasPermission("fruitful.drop." + blocktype + "." + drop.getName(), player)) {
-                if (random.nextDouble() < drop.getChance()) {
-                    drop.dropIt(world, location, event);
-                }
-            }
-        }
-    }
-    
     private void loadSuperPerms() {
+        final PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.addPermission(ROOT);
         pluginManager.addPermission(DROP_PARENT);
         pluginManager.addPermission(COMMAND_PARENT);
@@ -174,6 +182,7 @@ public class Fruitful extends JavaPlugin {
     }
     
     private void unloadSuperPerms() {
+        final PluginManager pluginManager = getServer().getPluginManager();
         for (final Permission permission : permissionSet) {
             pluginManager.removePermission(permission);
         }
@@ -196,7 +205,7 @@ public class Fruitful extends JavaPlugin {
         }
     }
     
-    private boolean hasPermission(final String permission, final Player player) {
+    public boolean hasPermission(final String permission, final Player player) {
         if (player != null) {
             if (usePermissions) {
                 return permissionHandler.has(player, permission);
@@ -205,6 +214,18 @@ public class Fruitful extends JavaPlugin {
             }
         }
         return true;
+    }
+    
+    void chanceIt(final World world, final Location location, final Player player, final String blocktype, final Keyword event) {
+        final HashSet<Drop> drops = configuration.getDropList(world, blocktype, event);
+        final Random random = new Random();
+        for (final Drop drop : drops) {
+            if (hasPermission("fruitful.drop." + blocktype + "." + drop.getName(), player)) {
+                if (random.nextDouble() < drop.getChance()) {
+                    drop.dropIt(world, location, event);
+                }
+            }
+        }
     }
     
 }

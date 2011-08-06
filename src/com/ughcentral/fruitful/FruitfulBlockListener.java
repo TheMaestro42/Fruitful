@@ -25,7 +25,7 @@ public class FruitfulBlockListener extends BlockListener {
     
     @Override
     public void onBlockBreak(final BlockBreakEvent event) {
-        if (event.isCancelled()) {
+        if (event.isCancelled() || !plugin.isEnabled()) {
             return;
         }
         final Block block = event.getBlock();
@@ -41,7 +41,7 @@ public class FruitfulBlockListener extends BlockListener {
             if (blockKeywords.contains(keyword) || blockKeywords.contains(Keyword.DISABLED)) {
                 break checkEventKeywords;
             }
-            if (player.getItemInHand().getType() == Material.SHEARS) {
+            if ((player.getItemInHand().getType() == Material.SHEARS) && (block.getType() == Material.LEAVES)) {
                 keyword = Keyword.SHEARABLE;
                 if (!blockKeywords.contains(keyword)) {
                     break checkEventKeywords;
@@ -60,7 +60,7 @@ public class FruitfulBlockListener extends BlockListener {
     
     @Override
     public void onBlockBurn(final BlockBurnEvent event) {
-        if (event.isCancelled()) {
+        if (event.isCancelled() || !plugin.isEnabled()) {
             return;
         }
         final Block block = event.getBlock();
@@ -85,7 +85,7 @@ public class FruitfulBlockListener extends BlockListener {
     
     @Override
     public void onLeavesDecay(final LeavesDecayEvent event) {
-        if (event.isCancelled()) {
+        if (event.isCancelled() || !plugin.isEnabled()) {
             return;
         }
         final Block block = event.getBlock();
@@ -110,7 +110,7 @@ public class FruitfulBlockListener extends BlockListener {
     
     @Override
     public void onBlockFromTo(final BlockFromToEvent event) {
-        if (event.isCancelled()) {
+        if (event.isCancelled() || !plugin.isEnabled()) {
             return;
         }
         final Block block = event.getToBlock();

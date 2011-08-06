@@ -5,3 +5,8 @@ author: Patrick Crespo
 load: postworld
 softdepend: [Permissions]
 description: Changes what different blocks can drop.
+commands:
+  fruitful:
+    description: Main command.
+    usage: Type "/<command>" for a list of options.
+    permission: fruitful.command.reload

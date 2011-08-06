@@ -32,10 +32,10 @@ public class FruitfulConfiguration extends Configuration {
     private static final String GROUPS = "valid.groups";
     
     private final File configurationFile;
-    private Fruitful plugin;
+    private final Fruitful plugin;
     boolean hasChanged;
     
-    FruitfulConfiguration(final File file, Fruitful instance) {
+    FruitfulConfiguration(final File file, final Fruitful instance) {
         super(file);
         configurationFile = file;
         plugin = instance;
@@ -45,7 +45,7 @@ public class FruitfulConfiguration extends Configuration {
     public void load() {
         if (!configurationFile.exists()) {
             createConfiguration(configurationFile);
-            File simpleConfigurationFile = new File(plugin.getDataFolder() + File.separator + "simple_config.yml");
+            final File simpleConfigurationFile = new File(plugin.getDataFolder() + File.separator + "simple_config.yml");
             if (!simpleConfigurationFile.exists()) {
                 createConfiguration(simpleConfigurationFile);
             }
@@ -148,7 +148,7 @@ public class FruitfulConfiguration extends Configuration {
         return result;
     }
     
-    private void createConfiguration(File file) {
+    private void createConfiguration(final File file) {
         final InputStream inputFile = this.getClass().getResourceAsStream("/" + file.getName());
         if (inputFile != null) {
             FileOutputStream outputFile = null;
