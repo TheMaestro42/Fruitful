@@ -1,0 +1,51 @@
+# Fruitful v0.7 simple 'config.yml'
+# Replace your config.yml with this one if you just want apples from trees,
+#   and cocoa from crops.  This will be generated if 'config.yml' didn't
+#   previously exist.
+
+options:
+    Permissions: false
+defaults:
+    tree:
+        apples:
+            range: [1]
+            chance: '1:32'
+        keywords: [no_override]
+    crops:
+        cocoabeans:
+            range: [1]
+            chance: '1:10'
+        keywords: [no_override]
+valid:
+    blocktypes:
+        tree:
+            type: Leaves
+        crops:
+            type: Crops
+            data: [7]
+    items:
+        apple:
+            type: Apple
+        goldenapple:
+            type: Golden_Apple
+        cocoabean1:
+            type: Ink_Sack
+            data: [3]
+        cocoabean2:
+            type: Ink_Sack
+            data: [3]
+    groups:
+        apples:
+            apple:
+                range: [1]
+                chance: '63:64'
+            goldenapple:
+                range: [1]
+                chance: '1:64'
+        cocoabeans:
+            cocoabean1:
+                range: [1]
+                chance: 75%
+            cocoabean2:
+                range: [2]
+                chance: 25%

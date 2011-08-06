@@ -4,4 +4,4 @@ version: 0.7
 author: Patrick Crespo
 load: postworld
 softdepend: [Permissions]
-description: Changes what different trees and ripe crops can drop.
+description: Changes what different blocks can drop.

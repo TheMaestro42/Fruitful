@@ -1,0 +1,352 @@
+# Fruitful v0.7 default 'config.yml'
+
+###########
+# Options #
+###########
+
+options:
+    Permissions: false       # Whether or not to use Permissions 3.x (or
+                             #   compatible) instead of Bukkit SuperPerms.
+                             #   defaults to use SuperPerms (i.e. false).
+###########
+# Default #
+###########
+
+# default:
+#     blocktype:
+#         keywords: [blockkeyword1, blockkeyword2]
+#         drop1:
+#             range: [number] or [min, max]
+#             chance: <Percentage>, <Ratio>, or <Double>
+#             keywords: [drop1keyword1, drop1keyword2]
+#         drop2:
+#             ...
+# Chance can be a percentage "2.5%", a ratio "1:40", or a double precision
+#   number "0.025".  The chance is processed as a string, so if you're having
+#   strange issues, put the chance in single quotes (apostrophes).  This
+#   happens mostly with ratios.  (For a good example, remove the single quotes
+#   from apples under oak.)
+#
+# If the keywords are left out, no keywords are assumed.  Two keywords:
+# SHEARABLE and BURNABLE need to be present on both the blocktype AND drop
+# if you want the item to drop for that event.  See "treetrunk" for an example.
+#
+# Keywords on the block get processed before they do on the drops.  So any of
+#   the event overrides will prevent all drops from happenting for that event
+#   on the block.  (i.e. a no_boom on the blocktype means that explosions will
+#   never drop anything from it.)
+# 
+# Valid Block- and Drop-based keywords:
+#     NO_BREAK:     Deny this when a player breaks a block
+#     NO_BOOM:      Deny this when an explosion breaks the block
+#     NO_DECAY:     Deny this due to leaf decay
+#     NO_WATER:     Deny this due to water flowing and breaking the block
+#     SECURE:       Deny this when NOT broken by a player
+#     NO_OVERRIDE:  Do not override existing drops by cancelling the event
+#                   Use this if you want to make sure events get logged in your
+#                   block logger, if you have some other tracking plugins, or
+#                   If you're lazy and don't want to add back in stuff. :)
+#     DISABLED:     Don't do this. (Useful for overriding settings in worlds)
+#                   If you want natural drops to happen, you must also include
+#                   NO_OVERRIDE.  Works on drops too, but isn't necessary.
+#                   (You can just leave them out)
+#     BURNABLE:     Allow fire burning this block to drop this item
+#                   This and SHEARABLE must be on both the block and the drop
+#                   for them to work properly.
+#     SHEARABLE:    Alow shears breaking this block to drop this item.  Only
+#                   applies to leaf blocks, so you don't need to add shearable
+#                   to everything.  Specifying this will override shears
+#                   dropping leaves unless used with NO_OVERRIDE.
+# 
+# Since "pine" doesn't have the no_override keyword, nothing will drop from
+#   it, not even saplings.  In this case, it's better to not define "pine"
+#   here at all, if you want it to behave like normal.
+defaults:
+    oak:
+        apples:
+            range: [1]
+            chance: '1:50'
+        keywords: [No_Override]
+    pine:
+        spider:
+            range: [1]
+            chance: 0.05%
+        keywords: [disabled]
+    birch:
+        keywords: [NO_OVERRIDE]
+        cocoabeans:
+            range: [1, 3]
+            chance: 5%
+    crops:
+        cocoabeans:
+            range: [1, 2]
+            chance: 0.05
+        zombie:
+            range: [1]
+            chance: '1:500'
+        keywords: [no_override]
+    treetrunk:
+        charcoal:
+            range: [1]
+            chance: 25%
+            keywords: [burnable, no_break]
+        keywords: [burnable, no_override]
+
+##########
+# Worlds #
+##########
+
+# Works similar to the above configuration, except use:
+#
+# worlds:
+#     WorldName:
+#
+# Any setting here will override the defaults, any blocktype missing, will
+#   use the default settings for that blocktype, so add:
+#
+# worlds:
+#     WorldName:
+#         blocktype:
+#             keywords: [disabled, no_override]
+#
+# This will prevent processing that block for drops.
+worlds:
+    world_nether:
+        birch:
+            keywords: [Disabled, no_OvErRiDe]
+        hellishoak:
+            apples:
+                range: [1, 2]
+                chance: 0.005
+            electrifiedcreeper:
+                range: [1]
+                chance: 100%
+                keywords: [no_decay]
+            keywords: [no_boom]
+        
+
+################
+# Valid values #
+################
+
+# For organizational reasons.
+valid:
+
+###############
+# Block Types #
+###############
+
+#     blocktypes:
+#         name:
+#             type: <Material> OR <ID>
+#             data: [ value1, value2, value3 ]
+#             biomes: [ Biome1, Biome2, Biome3 ]
+#
+# Data values are numbers, the entire parameter must be in a bracket.  Leaving
+#   this out will assume "All values" (0-15). 
+# Biomes are the Bukkit Biomes, case insensitive, but must contain the proper
+#   name, e.g. Ice_desert is valid, however ICEDESERT is not.  Leaving this
+#   assumes all 13 biomes.
+#
+# Having multiple blocks with the same material, data, and biomes is okay,
+# however the more 'specific' the match the higher the preference.
+#
+# List of valid Biomes - Check http://www.minecraftwiki.net/wiki/Biomes for
+#                        descriptions
+#     RAINFOREST
+#     SWAMPLAND
+#     SEASONAL_FOREST
+#     FOREST
+#     SAVANNA
+#     SHRUBLAND
+#     TAIGA
+#     DESERT
+#     PLAINS
+#     TUNDRA
+#     ICE_DESERT:      Doesn't occur naturally
+#     HELL:            Nether specific
+#     SKY:             Skylands specific
+#
+# Check out http://www.minecraftwiki.net/wiki/Data_values for a list of
+#   block/item IDs
+    blocktypes:
+        oak:
+            type: leaves         # Bukkit material name, case insensitive
+            data: [0]
+        pine:
+            type: 18             # Minecraft block ID, decimal value is also okay
+            data: [1]
+        birch:
+            type: 0x12           # Minecraft block ID, hexadecimal works too
+            data: [2]
+        hellishoak:
+            type: Leaves
+            data: [0]
+            biomes: [ Hell ]
+        wool:                    # With no data, this applies to all wool colors
+            type: wool
+        grass:
+            type: Long_Grass
+            data: [1, 2]
+        crop:
+            type: CROPS
+            data: [7]            # Only ripe crops!
+        treetrunk:
+            type: log
+        
+#########
+# Items #
+#########
+
+#     items:
+#         name:
+#             type: <Material> OR <ID>
+#             data: [value1, value2, value3]
+#             keywords: [keyword1, keyword2]
+#
+# The name must be unique to all item, creature and group drops.
+# As above, the Bukkit Material or Block/Item ID works.
+#
+# The data values are what it *can* be.  A simple random choice will be made
+#   from the list of values given.  A single value must still be enclosed in
+#   brackets.  Omitting the value assumes "[0]".
+#
+# The keywords can be any valid drop based keyword.
+#
+    items:
+        apple:
+            type: apple
+        apple2:
+            type: 260
+        apple3:
+            type: 0x104 
+        goldenapple:
+            type: 322
+        cocoabeans:
+            type: 0x15f
+            data: [3]
+        randomDye:
+            type: Ink_Sack
+            data: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        charcoal:
+            type: coal
+            data: [1]
+
+#############
+# Creatures #
+#############
+
+#     creatures:
+#         name:
+#             creature: <CreatureType>
+#             keywords: [keyword]
+#
+# The name must be unique to all item, creature and group drops.
+# The CreatureType is the bukkit CreatureType.
+#
+# Keywords can be drop-based or creature-based.
+# Creature based keywords:
+#     BURNING:      Set this creature on fire when it spawns.  Why?  Cause. :)
+#     ELECTRIC:     Make this creeper Super-charged when it spawns.  For
+#                   masochists/mean server ops only. :)
+#     RAINBOW:      Sheep will naturally spawn with the same chance of color
+#                   that they do normally.  This keyword makes the sheep that
+#                   spawns a random non-natural color.  (Well, pink sheep are
+#                   included)
+#     SHEARED:      Spawn a sheep pre-sheared for... whatever reason.
+#     SADDLED:      Put a saddle on that there pig.
+#     ANGRY:        Will find the nearest player, and attack.  For Spiders,
+#                   Wolves, and Zombie Pigmen.
+    creatures:
+        sheep:
+            creature: SHEEP
+        shearedsheep:
+            creature: sheep
+            keywords: [sheared]
+        rainbowsheep:
+            creature: sHeEp
+            keywords: [rainbow]
+        electrifiedcreeper:
+            creature: Creeper
+            keywords: [electric]
+        zombie:
+            creature: Zombie
+        spider:
+            creature: Spider
+            keywords: [Angry]
+        flamingballodeath:
+            creature: Slime
+            keywords: [Burning]
+        mightysteed:
+            creature: pig
+            keywords: [saddled]
+
+##########
+# Groups #
+##########
+
+#     groups:
+#         name:
+#             keywords: [groupKeyword1, groupKeyword2]
+#             drop1:
+#                 range: [number] OR [min, max]
+#                 chance: <Percentage>, <Ratio>, <Double>
+#                 keywords: [drop1Keyword1, drop1Keyword2]
+#             drop2:
+#                 ...
+#
+# The name must be unique to all item, creature and group drops.
+# Each drop must be already defined in the "items" or "creatures" section.
+#   Also, due to limitations in the Bukkit yml implementation, you cannot use
+#   duplicate drop names.  If you want a group to have a chance of one apple,
+#   two apples, or three apples, you need three separate "apple" drops.  See
+#   "fruitful" for an example.
+# Range is a single number in brackets [1] or two numbers [1, 3] for min, max.
+#
+# Chance can be a percentage "2.5%", a ratio "1:40", or a double precision
+#   number "0.025".  For the group, it's just a weight, i.e. all the possible
+#   values are added up, then the weight is divided by it to come up with the
+#   chance a particular item will drop.  See "sheepparty" for an example.  In
+#   this case, since the 'total' percentage is 433%, sheep have a ~69% chance,
+#   rainbowsheep have a ~23% chance, and shearedsheep have an ~8% chance.
+#
+# The keywords can be any valid drop based keyword.  Any keywords in the drops
+#   will affect the 'chance' that items can drop.  Drops that cannot drop will
+#   be 'skipped' when checking for the total weight.  For example,
+#   in "sheepparty" if it's triggered by a leaf decay event, there is a 100%
+#   chance a sheared sheep will drop because of the NO_DECAY and SECURE
+#   keywords on the other two possibilities.
+    groups:
+        apples:
+            apple:
+                range: [1]
+                chance: 99%
+            goldenapple:
+                range: [1]
+                chance: 1%
+                keywords: [no_boom]
+        sheepparty:
+            sheep:
+                range: [1, 2]
+                chance: 300%
+                keywords: [no_decay]
+            rainbowsheep:
+                range: [1, 2]
+                chance: 100%
+                keywords: [secure]
+            shearedsheep:
+                range: [1, 2]
+                chance: 33%
+        fruitful:
+            apple:
+                range: [1]
+                chance: 70%
+            apple2:
+                range: [2]
+                chance: .125
+            apple3:
+                range: [3]
+                chance: '1:20'
+            cocoabeans:
+                range: [1, 3]
+                chance: 12.5%
