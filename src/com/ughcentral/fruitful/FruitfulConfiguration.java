@@ -150,6 +150,10 @@ public class FruitfulConfiguration extends Configuration {
     
     private void createConfiguration(final File file) {
         final InputStream inputFile = this.getClass().getResourceAsStream("/" + file.getName());
+        final File pluginFolder = plugin.getDataFolder();
+        if (!pluginFolder.exists()) {
+            pluginFolder.mkdir();
+        }
         if (inputFile != null) {
             FileOutputStream outputFile = null;
             try {
