@@ -67,11 +67,11 @@ defaults:
             range: [1]
             chance: '1:50'
         keywords: [No_Override]
-    pine:
-        spider:
-            range: [1]
-            chance: 0.05%
-        keywords: [disabled]
+#    pine:
+#        spider:
+#            range: [1]
+#            chance: 0.05%
+#        keywords: [disabled]
     birch:
         keywords: [NO_OVERRIDE]
         cocoabeans:
