@@ -18,6 +18,7 @@ import com.ughcentral.fruitful.valid.ValidBlockType;
 public class FruitfulBlockListener extends BlockListener {
     
     private final Fruitful plugin;
+    private static final HashSet<Material> WATER_TARGETS = new HashSet<Material>();
     
     public FruitfulBlockListener(final Fruitful instance) {
         plugin = instance;
@@ -91,7 +92,7 @@ public class FruitfulBlockListener extends BlockListener {
         final Block block = event.getBlock();
         final String blocktype = ValidBlockType.getMatch(block);
         final World world = block.getWorld();
-        if ((blocktype == null) || !plugin.configuration.isDefined(world, blocktype)) {
+        if ((blocktype == null) || !plugin.configuration.isDefined(world, blocktype) || !WATER_TARGETS.contains(block.getType())) {
             return;
         }
         final HashSet<Keyword> blockKeywords = plugin.configuration.getBlockKeywords(world, blocktype);
@@ -131,6 +132,24 @@ public class FruitfulBlockListener extends BlockListener {
         event.setCancelled(true);
         block.setType(Material.AIR);
         
+    }
+    
+    static {
+        WATER_TARGETS.add(Material.SAPLING);
+        WATER_TARGETS.add(Material.RED_MUSHROOM);
+        WATER_TARGETS.add(Material.BROWN_MUSHROOM);
+        WATER_TARGETS.add(Material.RED_ROSE);
+        WATER_TARGETS.add(Material.YELLOW_FLOWER);
+        WATER_TARGETS.add(Material.REDSTONE_WIRE);
+        WATER_TARGETS.add(Material.REDSTONE_TORCH_ON);
+        WATER_TARGETS.add(Material.REDSTONE_TORCH_OFF);
+        WATER_TARGETS.add(Material.TORCH);
+        WATER_TARGETS.add(Material.RAILS);
+        WATER_TARGETS.add(Material.POWERED_RAIL);
+        WATER_TARGETS.add(Material.DETECTOR_RAIL);
+        WATER_TARGETS.add(Material.LEVER);
+        WATER_TARGETS.add(Material.DIODE_BLOCK_OFF);
+        WATER_TARGETS.add(Material.DIODE_BLOCK_ON);
     }
     
 }
