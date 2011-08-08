@@ -150,6 +150,7 @@ public class FruitfulBlockListener extends BlockListener {
         WATER_TARGETS.add(Material.LEVER);
         WATER_TARGETS.add(Material.DIODE_BLOCK_OFF);
         WATER_TARGETS.add(Material.DIODE_BLOCK_ON);
+        WATER_TARGETS.add(Material.CROPS);
     }
     
 }
