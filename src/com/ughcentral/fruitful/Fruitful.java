@@ -45,6 +45,7 @@ public class Fruitful extends JavaPlugin {
     @Override
     public void onDisable() {
         duringDisable();
+        logInfo("Plugin has been disabled.");
     }
     
     @Override
@@ -59,6 +60,7 @@ public class Fruitful extends JavaPlugin {
         pluginManager.registerEvent(Event.Type.BLOCK_BURN, blockListener, Priority.Highest, this);
         pluginManager.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Priority.Highest, this);
         duringEnable();
+        logInfo("Plugin has been enabled.");
     }
     
     @Override
@@ -80,7 +82,6 @@ public class Fruitful extends JavaPlugin {
         setupPermissions();
         loadSuperPerms();
         getCommand("fruitful").setExecutor(commandHandler);
-        logInfo("Plugin has been enabled.");
     }
     
     private void duringDisable() {
@@ -92,7 +93,6 @@ public class Fruitful extends JavaPlugin {
         ValidBlockType.unRegisterAll();
         ValidDrop.unRegisterAll();
         unloadSuperPerms();
-        logInfo("Plugin has been disabled.");
     }
     
     static void logInfo(final String message) {
