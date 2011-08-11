@@ -95,11 +95,11 @@ public class Fruitful extends JavaPlugin {
         unloadSuperPerms();
     }
     
-    static void logInfo(final String message) {
+    public static void logInfo(final String message) {
         log.info(chatHeader + message);
     }
     
-    static void logWarning(final String message) {
+    public static void logWarning(final String message) {
         log.warning(chatHeader + message);
     }
     

@@ -26,14 +26,18 @@ public class FruitfulCommandHandler implements CommandExecutor {
         if (subCommand.equals("reload")) {
             final String permission = "fruitful.command.reload";
             boolean hasPermission = false;
+            String name = null;
             if (sender instanceof Player) {
                 hasPermission = plugin.hasPermission(permission, (Player) sender);
+                name = ((Player) sender).getDisplayName();
             } else {
                 hasPermission = sender.hasPermission(permission);
+                name = "Console";
             }
             if (hasPermission) {
                 plugin.reload();
-                sender.sendMessage(chatPrefix + "Plugin has been reloaded.");
+                sender.sendMessage(chatPrefix + "Configuration has been reloaded.");
+                Fruitful.logInfo("Configuration has been reloaded by " + name + ".");
                 return true;
             } else {
                 sender.sendMessage(chatPrefix + "You do not have permission to use this command.");

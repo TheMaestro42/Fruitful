@@ -92,7 +92,7 @@ public class FruitfulBlockListener extends BlockListener {
         final Block block = event.getBlock();
         final String blocktype = ValidBlockType.getMatch(block);
         final World world = block.getWorld();
-        if ((blocktype == null) || !plugin.configuration.isDefined(world, blocktype) || !WATER_TARGETS.contains(block.getType())) {
+        if ((blocktype == null) || !plugin.configuration.isDefined(world, blocktype)) {
             return;
         }
         final HashSet<Keyword> blockKeywords = plugin.configuration.getBlockKeywords(world, blocktype);
@@ -111,7 +111,7 @@ public class FruitfulBlockListener extends BlockListener {
     
     @Override
     public void onBlockFromTo(final BlockFromToEvent event) {
-        if (event.isCancelled() || !plugin.isEnabled()) {
+        if (event.isCancelled() || !plugin.isEnabled() || !WATER_TARGETS.contains(event.getToBlock().getType())) {
             return;
         }
         final Block block = event.getToBlock();
