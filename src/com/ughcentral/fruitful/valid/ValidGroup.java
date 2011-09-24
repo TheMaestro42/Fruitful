@@ -3,7 +3,7 @@ package com.ughcentral.fruitful.valid;
 import java.util.HashSet;
 import com.ughcentral.fruitful.Keyword;
 
-public class ValidGroup extends ValidDrop {
+public final class ValidGroup extends ValidDrop {
     
     private HashSet<ValidDrop> drops = new HashSet<ValidDrop>();
     

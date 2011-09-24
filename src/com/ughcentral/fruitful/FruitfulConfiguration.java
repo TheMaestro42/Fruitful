@@ -18,10 +18,10 @@ import org.bukkit.util.config.Configuration;
 import com.ughcentral.fruitful.drops.*;
 import com.ughcentral.fruitful.valid.*;
 
-public class FruitfulConfiguration extends Configuration {
+public final class FruitfulConfiguration extends Configuration {
     
     private static final Integer[] ALL_DATA = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-    private static final Biome[] ALL_BIOMES = { Biome.DESERT, Biome.FOREST, Biome.HELL, Biome.ICE_DESERT, Biome.PLAINS, Biome.RAINFOREST, Biome.SAVANNA, Biome.SEASONAL_FOREST, Biome.SHRUBLAND, Biome.SKY, Biome.SWAMPLAND, Biome.TAIGA, Biome.TUNDRA };
+    private static final Biome[] ALL_BIOMES = Biome.values();
     private static final Integer[] DEFAULT_DATA = { 0 };
     private static final int[] ZERO = { 0 };
     private static final String DEFAULT_PREFIX = "defaults.";

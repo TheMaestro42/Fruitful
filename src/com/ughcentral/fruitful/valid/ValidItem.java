@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.ughcentral.fruitful.Keyword;
 
-public class ValidItem extends ValidDrop {
+public final class ValidItem extends ValidDrop {
     
     private final Material material;
     private final Integer[] data;

@@ -8,7 +8,7 @@ import org.bukkit.World;
 import com.ughcentral.fruitful.Keyword;
 import com.ughcentral.fruitful.valid.ValidItem;
 
-public class Item extends Drop {
+public final class Item extends Drop {
     
     private final ValidItem item;
     

@@ -8,7 +8,7 @@ import org.bukkit.World;
 
 import com.ughcentral.fruitful.Keyword;
 
-public class Group extends Drop {
+public final class Group extends Drop {
     
     HashSet<Drop> drops;
     

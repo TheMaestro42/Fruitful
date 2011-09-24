@@ -15,7 +15,7 @@ import org.bukkit.event.block.LeavesDecayEvent;
 
 import com.ughcentral.fruitful.valid.ValidBlockType;
 
-public class FruitfulBlockListener extends BlockListener {
+public final class FruitfulBlockListener extends BlockListener {
     
     private final Fruitful plugin;
     private static final HashSet<Material> WATER_TARGETS = new HashSet<Material>();
@@ -42,7 +42,8 @@ public class FruitfulBlockListener extends BlockListener {
             if (blockKeywords.contains(keyword) || blockKeywords.contains(Keyword.DISABLED)) {
                 break checkEventKeywords;
             }
-            if ((player.getItemInHand().getType() == Material.SHEARS) && (block.getType() == Material.LEAVES)) {
+            Material blockMaterial = block.getType();
+            if ((player.getItemInHand().getType() == Material.SHEARS) && ((blockMaterial == Material.LEAVES) || (blockMaterial == Material.LONG_GRASS) || (blockMaterial == Material.VINE))) {
                 keyword = Keyword.SHEARABLE;
                 if (!blockKeywords.contains(keyword)) {
                     break checkEventKeywords;
@@ -153,6 +154,10 @@ public class FruitfulBlockListener extends BlockListener {
         WATER_TARGETS.add(Material.CROPS);
         WATER_TARGETS.add(Material.LONG_GRASS);
         WATER_TARGETS.add(Material.DEAD_BUSH);
+        WATER_TARGETS.add(Material.PUMPKIN_STEM);
+        WATER_TARGETS.add(Material.MELON_STEM);
+        WATER_TARGETS.add(Material.VINE);
+        
     }
     
 }

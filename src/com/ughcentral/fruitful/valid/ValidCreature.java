@@ -6,7 +6,7 @@ import org.bukkit.entity.CreatureType;
 
 import com.ughcentral.fruitful.Keyword;
 
-public class ValidCreature extends ValidDrop {
+public final class ValidCreature extends ValidDrop {
     
     private final CreatureType creature;
     

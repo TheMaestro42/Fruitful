@@ -13,7 +13,7 @@ import org.bukkit.event.entity.EntityListener;
 
 import com.ughcentral.fruitful.valid.ValidBlockType;
 
-public class FruitfulEntityListener extends EntityListener {
+public final class FruitfulEntityListener extends EntityListener {
     
     private final Fruitful plugin;
     

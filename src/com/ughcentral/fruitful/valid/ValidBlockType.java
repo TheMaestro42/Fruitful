@@ -11,7 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 
-public class ValidBlockType {
+public final class ValidBlockType {
     
     public static final HashMap<String, ValidBlockType> blockTypes = new HashMap<String, ValidBlockType>();
     
@@ -70,10 +70,10 @@ public class ValidBlockType {
             blockData = block.getData() & 3;
             break;
         case STEP:
-            blockData = block.getData() & 3;
+            blockData = block.getData() & 7;
             break;
         case DOUBLE_STEP:
-            blockData = block.getData() & 3;
+            blockData = block.getData() & 7;
             break;
         default:
             blockData = block.getData();

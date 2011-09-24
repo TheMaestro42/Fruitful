@@ -25,7 +25,7 @@ import com.ughcentral.fruitful.drops.Drop;
 import com.ughcentral.fruitful.valid.ValidBlockType;
 import com.ughcentral.fruitful.valid.ValidDrop;
 
-public class Fruitful extends JavaPlugin {
+public final class Fruitful extends JavaPlugin {
     
     private FruitfulBlockListener blockListener;
     private FruitfulEntityListener entityListener;

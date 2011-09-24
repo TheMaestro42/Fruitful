@@ -6,7 +6,9 @@ import java.util.Random;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.CaveSpider;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Pig;
@@ -19,7 +21,7 @@ import org.bukkit.entity.Wolf;
 import com.ughcentral.fruitful.Keyword;
 import com.ughcentral.fruitful.valid.ValidCreature;
 
-public class Creature extends Drop {
+public final class Creature extends Drop {
     
     private final ValidCreature creature;
     private boolean isAngry = false;
@@ -91,6 +93,18 @@ public class Creature extends Drop {
                 goForTheEyes(pigzombie);
             }
             return pigzombie;
+        case ENDERMAN:
+            final Enderman enderman = (Enderman) spawnedCreature;
+            if (isAngry) {
+                goForTheEyes(enderman);
+            }
+            return enderman;
+        case CAVE_SPIDER:
+            final CaveSpider cavespider = (CaveSpider) spawnedCreature;
+            if (isAngry) {
+                goForTheEyes(cavespider);
+            }
+            return cavespider;
         default:
             return spawnedCreature;
         }
